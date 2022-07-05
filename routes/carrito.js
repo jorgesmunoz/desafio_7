@@ -1,17 +1,18 @@
 const express = require("express");
-const router = express.Router();
+const routerCarrito = express.Router();
+
 const {
-  getCarrito,
   postCarrito,
   deleteCarrito,
-  postProdCarrito,
-  deleteProdCarrito,
-} = require("../controllers/carrito.js");
+  getProductosCarrito,
+  postProductoCarrito,
+  deleteProductoCarrito,
+} = require("../src/controllers/carrito.js");
 
-router.post("/", postCarrito);
-router.delete("/:id", deleteCarrito);
-router.get("/:id/productos", getCarrito);
-router.post("/:id/productos", postProdCarrito);
-router.delete("/:id/productos/:id_prod", deleteProdCarrito);
+routerCarrito.post("/", postCarrito);
+routerCarrito.delete("/:id", deleteCarrito);
+routerCarrito.get("/:id/productos", getProductosCarrito);
+routerCarrito.post("/:id/productos/:id_prod", postProductoCarrito);
+routerCarrito.delete("/:id/productos/:id_prod", deleteProductoCarrito);
 
-module.exports = router;
+module.exports = routerCarrito;

@@ -1,21 +1,21 @@
 const fs = require("fs");
 
-class Contenedor {
+class Producto {
   static id = 0;
 
-  constructor(archivo, producto) {
+  constructor(archivo) {
     this.archivo = archivo;
     this.objects = [];
   }
 
   addId() {
-    Contenedor.id += 1;
+    Producto.id += 1;
   }
 
   async save(product) {
     try {
       this.addId();
-      product["id"] = Contenedor.id;
+      product["id"] = Producto.id;
       this.objects.push(product);
       fs.promises.writeFile(
         this.archivo,
@@ -25,20 +25,20 @@ class Contenedor {
       console.log("Error writing file");
     }
 
-    // console.log(this.objects);
-
-    return Contenedor.id;
+    return Producto.id;
   }
 
   async put(product) {
     try {
-      const obje = product["id"];
       this.objects[product["id"] - 1] = {
-        title: product["producto"],
-        price: product["precio"],
         id: product["id"],
+        name: product["name"],
+        description: product["description"],
+        code: product["code"],
+        picture: product["picture"],
+        price: product["price"],
+        stock: product["stock"],
       };
-      // this.objects.push(product);
       fs.promises.writeFile(
         this.archivo,
         JSON.stringify(this.objects, null, 2)
@@ -46,8 +46,6 @@ class Contenedor {
     } catch (error) {
       console.log("Error writing file");
     }
-
-    // console.log(this.objects);
 
     return product["id"];
   }
@@ -72,7 +70,6 @@ class Contenedor {
       return data;
     } catch (error) {
       console.log("Error getting all objects");
-      return 0;
     }
   }
 
@@ -94,7 +91,6 @@ class Contenedor {
       let data = JSON.parse(await fs.promises.readFile(this.archivo));
       const object = data.find((obj) => obj.id === idNumber);
       this.objects = data.filter((obj) => obj.id !== object.id);
-      console.log(this.objects);
       fs.promises.writeFile(
         this.archivo,
         JSON.stringify(this.objects, null, 2)
@@ -105,4 +101,4 @@ class Contenedor {
   }
 }
 
-module.exports = Contenedor;
+module.exports = Producto;
